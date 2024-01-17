@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion | Chat</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <form action="" class="form_connexion_inscription">
@@ -18,9 +20,10 @@
         <label>Confirmation du mot de passe</label>
         <input type="password" name="mdp2" class="mdp2">
         <input type="submit" value="Inscription">
-        <p class="link">Vous avez un compte?<a href="index.html"> Se connecter</a></p>
+        <p class="link">Vous avez un compte?<a href="index.php"> Se connecter</a></p>
     </form>
 
     <script src="script.js"></script>
 </body>
+
 </html>
