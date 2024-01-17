@@ -15,6 +15,7 @@
         <p class="message_error">
             Mot de passe incorrect
         </p>
+        <span>test</span>
         <label>Adresse Mail</label>
         <input type="email" name="email">
         <label>Mot de passe</label>
