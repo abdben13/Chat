@@ -31,7 +31,9 @@
                     $req = mysqli_query($con , "SELECT * FROM utilisateurs Where email = '$email'");
                     if(mysqli_num_rows($req) == 0){
                         //si l'email n'existe pas création d'un compte
-                        $req = mysqli_query($con, "INSERT INTO utilisateurs VALUES (NULL, '$email', '$mdp1') ");
+                        $hashed_password = password_hash($mdp1, PASSWORD_DEFAULT);
+                        $req = mysqli_query($con, "INSERT INTO utilisateurs VALUES (NULL, '$email', '$hashed_password') ");
+
                         if($req){
                             //si le compte a été créer, création d'une variable pour afficher un message de succes
                             $_SESSION['message'] = "<p class='message_success'>Votre compte a été créer avec succès !</p>" ;

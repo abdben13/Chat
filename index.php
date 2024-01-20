@@ -24,18 +24,15 @@
         //verification si les champs sont vides 
         if(isset($email) && isset($mdp1) && $email != "" && $mdp1 != ""){
             //verification si les identifiants sont justes
-            $req = mysqli_query($con , "SELECT * FROM utilisateurs WHERE email = '$email' AND mdp = '$mdp1'");
-            if(mysqli_num_rows($req) > 0){
-                //si les ids sont justes
-                //création d'une session qui contient l'email
+            $user = mysqli_fetch_assoc(mysqli_query($con , "SELECT * FROM utilisateurs WHERE email = '$email'"));
+            if ($user && password_verify($mdp1, $user['mdp'])) {
+                // Les identifiants sont corrects
                 $_SESSION['user'] = $email;
-                //redirection vers la page chat
                 header("location:chat.php");
-                //destruction de la variable contenant le message d'inscription
                 unset($_SESSION['message']);
-            }else {
-                //sinon 
-                $error = "Email ou mot de passe incorrecte(s) !";
+            } else {
+                // Les identifiants sont incorrects
+                $error = "Email ou mot de passe incorrect(s) !";
             }
         }else {
             //si les champs sont vides 
