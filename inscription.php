@@ -10,11 +10,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion | Chat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <?php 
+    include "header.html";
         if(isset($_POST['button_inscription'])){
             //si le formulaire est envoyé
             //se connecter à la bdd
@@ -54,25 +56,27 @@
             }
         }
     ?>
-    <form action="" method="POST" class="form_connexion_inscription" >
-        <h1>INSCRIPTION</h1>
-        <p class="message_error">
-            <?php 
-                //affichage de l'erreur
-                if(isset($error)){
-                    echo $error;
-                }
-            ?>
-        </p>
-        <label>Adresse Mail</label>
-        <input type="email" name="email">
-        <label>Mot de passe</label>
-        <input type="password" name="mdp1" class="mdp1">
-        <label>Confirmation du mot de passe</label>
-        <input type="password" name="mdp2" class="mdp2">
-        <input type="submit" value="Inscription" name="button_inscription">
-        <p class="link">Vous avez un compte?<a href="index.php"> Se connecter</a></p>
-    </form>
+    <div class="form">
+        <form action="" method="POST" class="form_connexion_inscription" >
+            <h1>INSCRIPTION</h1>
+            <p class="message_error">
+                <?php 
+                    //affichage de l'erreur
+                    if(isset($error)){
+                        echo $error;
+                    }
+                ?>
+            </p>
+            <label>Adresse Mail</label>
+            <input type="email" name="email">
+            <label>Mot de passe</label>
+            <input type="password" name="mdp1" class="mdp1">
+            <label>Confirmation du mot de passe</label>
+            <input type="password" name="mdp2" class="mdp2">
+            <input type="submit" value="Inscription" name="button_inscription">
+            <p class="link">Vous avez un compte?<a href="index.php"> Se connecter</a></p>
+        </form>
+    </div>
 
     <script src="script.js"></script>
 </body>

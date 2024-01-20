@@ -10,11 +10,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion | Chat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    
     <?php 
+    include "header.html";
     if(isset($_POST['button_con'])){
         //si le formulaire est envoyé
         //se connecter à la bdd
@@ -40,30 +43,31 @@
         }
     }
     ?>
-    <form action="" method="POST" class="form_connexion_inscription" >
-        <h1>CONNEXION</h1>
-        <?php 
-            //affichage du message de succes
-            if(isset($_SESSION['message'])) {
-                echo $_SESSION['message'];
-            }
-        ?>
-        <p class="message_error">
+    <div class="form">
+        <form action="" method="POST" class="form_connexion_inscription" >
+            <h1>CONNEXION</h1>
             <?php 
-                //affichage de l'erreur
-                if(isset($error)){
-                    echo $error;
+                //affichage du message de succes
+                if(isset($_SESSION['message'])) {
+                    echo $_SESSION['message'];
                 }
             ?>
-        </p>
-        <label>Adresse Mail</label>
-        <input type="email" name="email">
-        <label>Mot de passe</label>
-        <input type="password" name="mdp1">
-        <input type="submit" value="Connexion" name="button_con">
-        <p class="link">Vous n'avez pas de compte?<a href="inscription.php"> Créer un compte</a></p>
-    </form>
-
+            <p class="message_error">
+                <?php 
+                    //affichage de l'erreur
+                    if(isset($error)){
+                        echo $error;
+                    }
+                ?>
+            </p>
+            <label>Adresse Mail</label>
+            <input type="email" name="email">
+            <label>Mot de passe</label>
+            <input type="password" name="mdp1">
+            <input type="submit" value="Connexion" name="button_con">
+            <p class="link">Vous n'avez pas de compte?<a href="inscription.php"> Créer un compte</a></p>
+        </form>
+    </div><!--form-->
 
 </body>
 

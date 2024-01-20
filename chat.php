@@ -15,42 +15,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> <?=$user?> | Chat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="chat">
-        <div class="button-email">
-            <span><?=$user?></span>
-            <a href="deconnexion.php" class="Deconnexion_btn">Déconnexion</a>
-        </div><!--button-email-->
-        <!--messages-->
-        <div class="messages_box">Chargement ...</div><!--message_box-->
-        <!--Fin messages-->
-        <?php 
-            //envoi des messages
-            if(isset($_POST['send'])) {
-                //recuperons le message 
-                $message = $_POST['message'] ;
-                //connexion à la bdd
-                include("connexion_bdd.php");
-                //verifions si le champs n'est pas vide
-                if(isset($message) && $message != "") {
-                    //inserer le message dans la bdd
-                    $req = mysqli_query($con, "INSERT INTO messages VALUES (NULL,'$user', '$message',NOW())");
-                    //actualisation de la page 
-                    header('Location:chat.php');
-                }else {
-                    //si le message est vide on actualise la page 
-                    header('Location:chat.php');
-                }
+    <?php 
+        include "header.html";
+    ?>
+    <div class="form">
+        <div class="chat">
+            <div class="button-email">
+                <span><?=$user?></span>
+            </div><!--button-email-->
+            <!--messages-->
+            <div class="messages_box">Chargement ...</div><!--message_box-->
+            <!--Fin messages-->
+            <?php 
+                //envoi des messages
+                if(isset($_POST['send'])) {
+                    //recuperons le message 
+                    $message = $_POST['message'] ;
+                    //connexion à la bdd
+                    include("connexion_bdd.php");
+                    //verifions si le champs n'est pas vide
+                    if(isset($message) && $message != "") {
+                        //inserer le message dans la bdd
+                        $req = mysqli_query($con, "INSERT INTO messages VALUES (NULL,'$user', '$message',NOW())");
+                        //actualisation de la page 
+                        header('Location:chat.php');
+                    }else {
+                        //si le message est vide on actualise la page 
+                        header('Location:chat.php');
+                    }
 
-            }
-        ?>
-        <form action="" class="send_message" method="POST">
-            <textarea name="message" cols="30" rows="2" placeholder="Votre message"></textarea>
-            <input type="submit" value="Envoyer" name="send">
-        </form>
-    </div><!--chat--> >
+                }
+            ?>
+            
+            <form action="" class="send_message" method="POST">
+                <textarea name="message" cols="30" rows="2" placeholder="Votre message"></textarea>
+                <input type="submit" value="Envoyer" name="send">
+            </form>
+        </div><!--chat--> >
+    </div>
 
     <script> 
         //actualisation de la page en utilisant AJAX

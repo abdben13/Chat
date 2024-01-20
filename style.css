@@ -13,7 +13,7 @@
     background-color: #ccc;
     border-radius: 6px;
 }
-body {
+.form {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -75,14 +75,7 @@ body {
     align-items: center;
     justify-content: space-between;
 }
-.Deconnexion_btn {
-    padding: 5px 20px;
-    color: #fff;
-    background-color: #1877f2;
-    font-size: 13px;
-    text-decoration: 0;
-    border-radius: 6px;
-}
+
 .messages_box {
     min-height: 360px;
     max-height: 360px;
@@ -158,4 +151,7 @@ body {
     color: #fff;
     font-size: 12px;
     border-radius: 6px;
+}
+.navbar-nav {
+    margin-left: auto;
 }
