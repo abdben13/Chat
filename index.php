@@ -1,22 +1,7 @@
 <?php 
     //démarrage de la session
     session_start();
-?>
 
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion | Chat</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-    
-    <?php 
     include "header.html";
     if(isset($_POST['button_con'])){
         //si le formulaire est envoyé
@@ -25,28 +10,61 @@
         //extraire les infos du formulaire
         extract($_POST);
         //verification si les champs sont vides 
-        if(isset($email) && isset($mdp1) && $email != "" && $mdp1 != ""){
-            //verification si les identifiants sont justes
-            $user = mysqli_fetch_assoc(mysqli_query($con , "SELECT * FROM utilisateurs WHERE email = '$email'"));
-            if ($user && password_verify($mdp1, $user['mdp'])) {
-                // Les identifiants sont corrects
-                 // Mémoriser l'utilisateur avec un cookie
-            if(isset($_POST['rememberMe']) && $_POST['rememberMe'] == 'on') {
-                $cookie_name = 'remember_user';
-                $cookie_value = base64_encode($email); 
-                setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // Cookie valable pendant 30 jours
-            }
-                $_SESSION['user'] = $email;
-                header("location:chat.php");
-                unset($_SESSION['message']);
+        if (isset($email) && isset($mdp1) && $email != "" && $mdp1 != "") {
+            // création de la requête préparée
+            $stmt = mysqli_prepare($con, "SELECT email, mdp, pseudo FROM utilisateurs WHERE email = ?");
+            
+            // vérification de la préparation de la requête
+            if ($stmt) {
+                // liaison du paramètre à la requête préparée
+                mysqli_stmt_bind_param($stmt, "s", $email);
+    
+                // exécution de la requête préparée
+                mysqli_stmt_execute($stmt);
+    
+                // récupération du résultat
+                mysqli_stmt_store_result($stmt);
+    
+                // liaison des résultats aux variables
+                mysqli_stmt_bind_result($stmt, $result_email, $result_mdp, $result_pseudo);
+    
+                // vérification si la requête a retourné une ligne
+                if (mysqli_stmt_fetch($stmt)) {
+                    // les identifiants sont corrects
+                    if (password_verify($mdp1, $result_mdp)) {
+                        // mémoriser l'utilisateur avec un cookie
+                        if (isset($_POST['rememberMe']) && $_POST['rememberMe'] == 'on') {
+                            $cookie_name = 'remember_user';
+                            $cookie_value = base64_encode($email); // Vous pouvez également stocker d'autres informations
+                            setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // Cookie valable pendant 30 jours
+                        }
+    
+                        $_SESSION['user'] = $email;
+                        $_SESSION['pseudo'] = $result_pseudo;
+                        header("location:chat.php");
+                        unset($_SESSION['message']);
+                    } else {
+                        // le mot de passe est incorrect
+                        $error = "Email ou mot de passe incorrect(s) !";
+                    }
+                } else {
+                    // l'email n'a pas été trouvé
+                    $error = "Email non trouvé !";
+                }
+    
+                // fermeture de la requête préparée
+                mysqli_stmt_close($stmt);
             } else {
-                // Les identifiants sont incorrects
-                $error = "Email ou mot de passe incorrect(s) !";
+                // erreur lors de la préparation de la requête
+                $error = "Erreur lors de la préparation de la requête !";
             }
         } else {
-            //si les champs sont vides 
+            // si les champs sont vides
             $error = "Veuillez remplir tous les champs !";
         }
+    
+        // fermeture de la connexion à la base de données
+        mysqli_close($con);
     }
     ?>
     <div class="container">

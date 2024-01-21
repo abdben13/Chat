@@ -6,27 +6,14 @@
         header("Location:index.php");
     }
     $user = $_SESSION['user']; //email de l'utilisateur
-?>
-
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> <?=$user?> | Chat</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <?php 
-        include "header.html";
+    $pseudo = $_SESSION['pseudo'];
+    include "header.html";
     ?>
     <div class="form">
         <div class="chat">
-            <div class="email">
-                <span><?=$user?></span>
-            </div><!--email-->
+            <div class="pseudo">
+                <span><?=strtoupper($pseudo)?></span>
+            </div><!--pseudo-->
             <!--messages-->
             <div class="messages_box">Chargement ...</div><!--message_box-->
             <!--Fin messages-->
@@ -40,7 +27,7 @@
                     //verifions si le champs n'est pas vide
                     if(isset($message) && $message != "") {
                         //inserer le message dans la bdd
-                        $req = mysqli_query($con, "INSERT INTO messages VALUES (NULL,'$user', '$message',NOW())");
+                        $req = mysqli_query($con, "INSERT INTO messages VALUES (NULL,'$user','$message',NOW())");
                         //actualisation de la page 
                         header('Location:chat.php');
                     }else {

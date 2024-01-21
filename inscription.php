@@ -1,61 +1,54 @@
-<?php 
-    //démarrage de la session
-    session_start();
-?>
+<?php
+// Démarrage de la session
+session_start();
 
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion | Chat</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-    <?php 
     include "header.html";
-        if(isset($_POST['button_inscription'])){
-            //si le formulaire est envoyé
-            //se connecter à la bdd
-            include "connexion_bdd.php";
-            //extraire les infos du formulaire
-            extract($_POST);
-            if(isset($email) && isset($mdp1) && $email != "" && $mdp1 != "" && isset($mdp2) && $mdp2 != ""){
-                //verification que les mots de passes sont conformes
-                if($mdp2 != $mdp1){
-                    // si ils sont differents
-                    $error = "Les mots de passe ne sont pas identiques !";
-                }else {
-                    //sinon verification si l'email est existant
-                    $req = mysqli_query($con , "SELECT * FROM utilisateurs Where email = '$email'");
-                    if(mysqli_num_rows($req) == 0){
-                        //si l'email n'existe pas création d'un compte
-                        $hashed_password = password_hash($mdp1, PASSWORD_DEFAULT);
-                        $req = mysqli_query($con, "INSERT INTO utilisateurs VALUES (NULL, '$email', '$hashed_password', '$pseudo') ");
+    if(isset($_POST['button_inscription'])){
+    // Si le formulaire est envoyé
+    // Se connecter à la BDD
+    include "connexion_bdd.php";
+    
+    // Extraire les infos du formulaire
+    extract($_POST);
+    
+    if(isset($email) && isset($mdp1) && $email != "" && $mdp1 != "" && isset($mdp2) && $mdp2 != ""){
+        // Vérification que les mots de passe sont conformes
+        if($mdp2 != $mdp1){
+            // Si ils sont différents
+            $error = "Les mots de passe ne sont pas identiques !";
+        } else {
+            // Sinon, vérification si l'email est existant
+            $stmt = mysqli_prepare($con, "SELECT * FROM utilisateurs WHERE email = ?");
+            mysqli_stmt_bind_param($stmt, "s", $email);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_store_result($stmt);
+            
+            if(mysqli_stmt_num_rows($stmt) == 0){
+                // Si l'email n'existe pas, création d'un compte
+                $hashed_password = password_hash($mdp1, PASSWORD_DEFAULT);
+                $stmt = mysqli_prepare($con, "INSERT INTO utilisateurs VALUES (NULL, ?, ?, ?)");
+                mysqli_stmt_bind_param($stmt, "sss", $email, $hashed_password, $pseudo);
+                mysqli_stmt_execute($stmt);
 
-                        if($req){
-                            //si le compte a été créer, création d'une variable pour afficher un message de succes
-                            $_SESSION['message'] = "<p class='message_success'>Votre compte a été créer avec succès !</p>" ;
-                            //redirection vers la page de connexion
-                            header("Location:index.php");
-                        }else {
-                            //sinon
-                            $error = "Inscription échouée !";
-                        }
-                    }else {
-                        // si l'email existe
-                        $error = "Cet email est déjà utilisé !";
-                    }
-
+                if(mysqli_stmt_affected_rows($stmt) > 0){
+                    // Si le compte a été créé avec succès
+                    $_SESSION['message'] = "<p class='message_success'>Votre compte a été créé avec succès !</p>" ;
+                    // Redirection vers la page de connexion
+                    header("Location:index.php");
+                } else {
+                    // Sinon
+                    $error = "Inscription échouée !";
                 }
-            }else {
-                $error = "Veuillez remplir tous les champs !";
+            } else {
+                // Si l'email existe
+                $error = "Cet email est déjà utilisé !";
             }
         }
-    ?>
+    } else {
+        $error = "Veuillez remplir tous les champs !";
+    }
+}
+?>
    <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
