@@ -8,6 +8,12 @@
     $user = $_SESSION['user']; //email de l'utilisateur
     $pseudo = $_SESSION['pseudo'];
     include "header.html";
+    include "connexion_bdd.php";
+    $req = mysqli_query($con, "SELECT * FROM utilisateurs");
+    $users = mysqli_fetch_all($req, MYSQLI_ASSOC);
+    mysqli_close($con);
+    ?>
+    <?php 
     ?>
     <div class="form">
         <div class="chat">
@@ -36,13 +42,14 @@
                     }
 
                 }
+                
             ?>
             
             <form action="" class="send_message" method="POST">
                 <textarea name="message" cols="30" rows="2" placeholder="Votre message"></textarea>
                 <input type="submit" value="Envoyer" name="send">
             </form>
-        </div><!--chat--> >
+        </div><!--chat--> 
     </div>
 
     <script> 
