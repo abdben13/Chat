@@ -6,7 +6,7 @@
         //si l'utilisateur est connecté
         include "connexion_bdd.php";
         //requete pour afficher les messages
-        $req = mysqli_query($con, "SELECT * FROM messages ORDER BY id_m ASC");
+        $req = mysqli_query($con, "SELECT * FROM messages ORDER BY id_m DESC");
         if(mysqli_num_rows($req) == 0){
             echo "Messagerie vide !";
         }else {

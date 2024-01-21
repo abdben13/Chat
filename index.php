@@ -30,6 +30,12 @@
             $user = mysqli_fetch_assoc(mysqli_query($con , "SELECT * FROM utilisateurs WHERE email = '$email'"));
             if ($user && password_verify($mdp1, $user['mdp'])) {
                 // Les identifiants sont corrects
+                 // Mémoriser l'utilisateur avec un cookie
+            if(isset($_POST['rememberMe']) && $_POST['rememberMe'] == 'on') {
+                $cookie_name = 'remember_user';
+                $cookie_value = base64_encode($email); 
+                setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // Cookie valable pendant 30 jours
+            }
                 $_SESSION['user'] = $email;
                 header("location:chat.php");
                 unset($_SESSION['message']);
@@ -37,37 +43,49 @@
                 // Les identifiants sont incorrects
                 $error = "Email ou mot de passe incorrect(s) !";
             }
-        }else {
+        } else {
             //si les champs sont vides 
             $error = "Veuillez remplir tous les champs !";
         }
     }
     ?>
-    <div class="form">
-        <form action="" method="POST" class="form_connexion_inscription" >
-            <h1>CONNEXION</h1>
-            <?php 
-                //affichage du message de succes
-                if(isset($_SESSION['message'])) {
-                    echo $_SESSION['message'];
-                }
-            ?>
-            <p class="message_error">
-                <?php 
-                    //affichage de l'erreur
-                    if(isset($error)){
-                        echo $error;
-                    }
-                ?>
-            </p>
-            <label>Adresse Mail</label>
-            <input type="email" name="email">
-            <label>Mot de passe</label>
-            <input type="password" name="mdp1">
-            <input type="submit" value="Connexion" name="button_con">
-            <p class="link">Vous n'avez pas de compte?<a href="inscription.php"> Créer un compte</a></p>
-        </form>
-    </div><!--form-->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form action="" method="POST" class="bg-light p-4 rounded">
+                    <h1 class="text-center mb-4">CONNEXION</h1>
+                    <?php 
+                        //affichage du message de succes
+                        if(isset($_SESSION['message'])) {
+                            echo $_SESSION['message'];
+                        }
+                    ?>
+                    <p class="text-danger mb-4">
+                        <?php 
+                            //affichage de l'erreur
+                            if(isset($error)){
+                                echo $error;
+                            }
+                        ?>
+                    </p>
+                    <div class="mb-3">
+                        <label for="inputEmail" class="form-label">Adresse Mail</label>
+                        <input type="email" class="form-control" id="inputEmail" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputPassword" class="form-label">Mot de passe</label>
+                        <input type="password" class="form-control" id="inputPassword" name="mdp1" required>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100" name="button_con">Connexion</button>
+                    <p class="text-center mt-3">Vous n'avez pas de compte? <a href="inscription.php" class="link">Créer un compte</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
 
 </body>
 

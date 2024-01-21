@@ -5,7 +5,7 @@
         //si l'utilisateur n'est pas connecté, redirection vers la page d'acceuil
         header("Location:index.php");
     }
-    $user = $_SESSION['user'] //email de l'utilisateur
+    $user = $_SESSION['user']; //email de l'utilisateur
 ?>
 
 
@@ -24,9 +24,9 @@
     ?>
     <div class="form">
         <div class="chat">
-            <div class="button-email">
+            <div class="email">
                 <span><?=$user?></span>
-            </div><!--button-email-->
+            </div><!--email-->
             <!--messages-->
             <div class="messages_box">Chargement ...</div><!--message_box-->
             <!--Fin messages-->
