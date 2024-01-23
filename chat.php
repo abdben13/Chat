@@ -56,10 +56,10 @@
                             <?php endforeach ?>
                         </tbody>
                     </table>
-                </div>
-            </div>
+                </div><!--users-->
+            </div><!--col-md-4-->
 
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="chat">
                     <div class="pseudo">
                         <span><?= strtoupper($pseudo) ?></span>
@@ -74,10 +74,10 @@
                         </div>
                         <button type="submit" class="btn btn-primary" name="send">Envoyer</button>
                     </form>
-                </div>
-            </div>
-        </div>
-    </div>
+                </div><!--chat-->
+            </div><!--col-md-6-->
+        </div><!--row-->
+    </div><!--container-->
     <script> 
         //actualisation de la page en utilisant AJAX
         var message_box = document.querySelector('.messages_box');
