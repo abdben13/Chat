@@ -12,63 +12,72 @@
     $req = mysqli_query($con, "SELECT * FROM utilisateurs");
     $users = mysqli_fetch_all($req, MYSQLI_ASSOC);
     mysqli_close($con);
-    ?>
-    <?php 
-    ?>
-    
-    <div class="form">
-    <div class="users">
-    <table class="table table-striped">
-        <caption>Utilisateurs</caption>
-        <tbody>
-            <?php foreach ($users as $utilisateur): ?>
-                <?php
-                     $classeEnLigne = ($utilisateur['en_ligne'] == 1) ? 'text-success' : 'text-danger';
-                ?>
-                <tr>
-                    <td class="<?= $classeEnLigne ?>"><?= $utilisateur['pseudo'] ?></td>
-                </tr>
-            <?php endforeach ?>
-        </tbody>
-    </table>
-</div>
-
-
-        <div class="chat">
-            <div class="pseudo">
-                <span><?=strtoupper($pseudo)?></span>
-            </div><!--pseudo-->
-            <!--messages-->
-            <div class="messages_box">Chargement ...</div><!--message_box-->
-            <!--Fin messages-->
-            <?php 
-                //envoi des messages
-                if(isset($_POST['send'])) {
-                    //recuperons le message 
-                    $message = $_POST['message'] ;
-                    //connexion à la bdd
-                    include("connexion_bdd.php");
-                    //verifions si le champs n'est pas vide
-                    if(isset($message) && $message != "") {
-                        //inserer le message dans la bdd
-                        $req = mysqli_query($con, "INSERT INTO messages VALUES (NULL,'$user','$message',NOW())");
-                        //actualisation de la page 
-                        header('Location:chat.php');
-                    }else {
-                        //si le message est vide on actualise la page 
-                        header('Location:chat.php');
-                    }
-
-                }
-                
-            ?>
+    if(isset($_POST['send'])) {
+        // Récupérons le message 
+        $message = $_POST['message'];
+        
+        // Connexion à la base de données
+        include("connexion_bdd.php");
+        
+        // Vérifions si le champ n'est pas vide
+        if(isset($message) && $message != "") {
+            // Insérer le message dans la base de données
+            $req = mysqli_query($con, "INSERT INTO messages VALUES (NULL,'$user','$message',NOW())");
             
-            <form action="" class="send_message" method="POST">
-                <textarea name="message" cols="30" rows="2" placeholder="Votre message"></textarea>
-                <input type="submit" value="Envoyer" name="send">
-            </form>
-        </div><!--chat--> 
-    </div><!--form -->
+            // Actualisation de la page 
+            header('Location:chat.php');
+        } else {
+            // Si le message est vide, on actualise la page 
+            header('Location:chat.php');
+        }
+    }
+    ?>
+   
+   <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="users">
+                    <table class="table table-striped">
+                        <caption>Utilisateurs</caption>
+                        <tbody>
+                            <?php foreach ($users as $utilisateur): ?>
+                                <?php
+                                    
+                                    $iconeEnLigne = ($utilisateur['en_ligne'] == 1) ? '<img class="icone-ligne" src="img/pngegg.png" alt="En ligne">' : '';
+                                    $iconeHorsLigne = ($utilisateur['en_ligne'] == 0) ? '<img class="icone-ligne" src="img/pngrouge.png" alt="Hors ligne">' : '';
+                                ?>
+                                <tr>
+                                <td class="icone-ligne">
+                                    <?= ucfirst(strtolower($utilisateur['pseudo'])) ?>
+                                    <?= $iconeEnLigne ?>
+                                    <?= $iconeHorsLigne ?>
+                                </td>
+                                </tr>
+                            <?php endforeach ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="chat">
+                    <div class="pseudo">
+                        <span><?= strtoupper($pseudo) ?></span>
+                        <a href="deconnexion.php" class="btn btn-danger">Déconnexion</a>
+                    </div>
+                    
+                    <div class="messages_box">Chargement ...</div>
+                    
+                    <form action="" class="send_message" method="POST">
+                        <div class="form-group">
+                            <textarea class="form-control" name="message" rows="2" placeholder="Votre message"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" name="send">Envoyer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <script> 
         //actualisation de la page en utilisant AJAX
         var message_box = document.querySelector('.messages_box');
