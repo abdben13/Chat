@@ -15,7 +15,25 @@
     ?>
     <?php 
     ?>
+    
     <div class="form">
+    <div class="users">
+    <table class="table table-striped">
+        <caption>Utilisateurs</caption>
+        <tbody>
+            <?php foreach ($users as $utilisateur): ?>
+                <?php
+                     $classeEnLigne = ($utilisateur['en_ligne'] == 1) ? 'text-success' : 'text-danger';
+                ?>
+                <tr>
+                    <td class="<?= $classeEnLigne ?>"><?= $utilisateur['pseudo'] ?></td>
+                </tr>
+            <?php endforeach ?>
+        </tbody>
+    </table>
+</div>
+
+
         <div class="chat">
             <div class="pseudo">
                 <span><?=strtoupper($pseudo)?></span>
@@ -50,8 +68,7 @@
                 <input type="submit" value="Envoyer" name="send">
             </form>
         </div><!--chat--> 
-    </div>
-
+    </div><!--form -->
     <script> 
         //actualisation de la page en utilisant AJAX
         var message_box = document.querySelector('.messages_box');

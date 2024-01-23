@@ -41,6 +41,7 @@
     
                         $_SESSION['user'] = $email;
                         $_SESSION['pseudo'] = $result_pseudo;
+                        $req_update = mysqli_query($con, "UPDATE utilisateurs SET en_ligne = 1 WHERE email = '$email'");
                         header("location:chat.php");
                         unset($_SESSION['message']);
                     } else {
