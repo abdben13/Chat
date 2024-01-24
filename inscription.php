@@ -79,7 +79,7 @@ session_start();
                     <input type="password" class="form-control mdp2" id="inputConfirmPassword" name="mdp2" required>
                 </div>
                 <button type="submit" class="btn btn-primary w-100" name="button_inscription">Inscription</button>
-                <p class="text-center mt-3">Vous avez un compte? <a href="forum.php" class="link">Se connecter</a></p>
+                <p class="text-center mt-3">Vous avez un compte? <a href="index.php" class="link">Se connecter</a></p>
             </form>
         </div>
     </div>
