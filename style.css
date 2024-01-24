@@ -14,7 +14,7 @@
     border-radius: 6px;
 }
 body {
-    background-color: #ccc;
+    background-color: #fff;
 }
 .nav {
     margin-left: auto;
@@ -23,16 +23,14 @@ body {
     margin-left: 8px;
 }
 h1 {
+    padding-right: 15px;
     margin-top: 2%;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     text-align: center;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: #333;
 }
-p{
-    padding-top: 2%;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-}
+
 .container {
     margin-top: 50px; 
 }
@@ -171,7 +169,25 @@ table tr{
     background-color: #fff;
 }
 .icone-ligne {
-    width: 10px; /* Ajustez la largeur selon vos besoins */
-    height: 10px; /* Ajustez la hauteur selon vos besoins */
-    margin-right: 5px; /* Ajustez la marge selon vos besoins pour l'espace entre l'icône et le texte */
+    width: 10px; 
+    height: 10px; 
+    margin-right: 5px; 
+}
+.img {
+    width: 80px; 
+    height: 80px;
+}
+.title {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.presentation {
+    font-size: 23px;
+    margin-top: 25px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background-color: blanchedalmond;
+    border-radius: 6px;
+    opacity: 95% ;
 }
